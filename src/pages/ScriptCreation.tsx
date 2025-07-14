@@ -862,7 +862,7 @@ export default function ScriptCreation() {
                               }
                             </span>
                             <span className="text-sm text-text-secondary">
-                              Đang chỉnh sửa chi tiết phần này
+                              Editing this section in detail
                             </span>
                           </div>
                         )}
