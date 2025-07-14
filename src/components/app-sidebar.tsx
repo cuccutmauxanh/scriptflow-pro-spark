@@ -35,6 +35,7 @@ const navigationItems = [
   { title: "AI Assistant", url: "/assistant", icon: Bot },
   { title: "Analytics", url: "/analytics", icon: BarChart3 },
   { title: "Team", url: "/team", icon: Users },
+  { title: "Marketplace", url: "/marketplace", icon: BookOpen },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 
