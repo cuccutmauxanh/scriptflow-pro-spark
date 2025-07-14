@@ -50,6 +50,31 @@ export default function ScriptCreation() {
   const [focusedSection, setFocusedSection] = useState<string | null>(null)
   const [showMetadataEdit, setShowMetadataEdit] = useState(false)
   const [isProjectCreated, setIsProjectCreated] = useState(false)
+  const [showOldProjects, setShowOldProjects] = useState(false)
+  const [oldProjects] = useState([
+    {
+      id: "project-1",
+      title: "How to Learn JavaScript Fast",
+      platform: "YouTube",
+      format: "Tutorial",
+      createdAt: "2024-01-15",
+      sections: [
+        { id: "hook", title: "Hook", content: "Did you know 90% of developers started with JavaScript?", tag: "#Hook", color: "bg-purple-500" },
+        { id: "intro", title: "Introduction", content: "Today I'll show you the fastest way to master JavaScript...", tag: "#Intro", color: "bg-blue-500" }
+      ]
+    },
+    {
+      id: "project-2", 
+      title: "React vs Vue: Which to Choose?",
+      platform: "TikTok",
+      format: "Comparison",
+      createdAt: "2024-01-10",
+      sections: [
+        { id: "hook", title: "Hook", content: "React or Vue? This debate ends today.", tag: "#Hook", color: "bg-purple-500" },
+        { id: "body", title: "Main Content", content: "Let me break down the key differences...", tag: "#Body", color: "bg-green-500" }
+      ]
+    }
+  ])
   const { toast } = useToast()
 
   const handleSendMessage = () => {
@@ -192,6 +217,30 @@ export default function ScriptCreation() {
     const section = scriptSections.find(s => s.id === sectionId)
     if (section) {
       setChatInput("")
+      // Add focused section tag to chat input
+      const tagElement = `${section.tag}`;
+      setChatMessages(prev => [...prev, {
+        id: Date.now().toString(),
+        role: 'user',
+        content: `Editing ${tagElement} section`,
+        timestamp: new Date()
+      }])
+    }
+  }
+
+  const loadOldProject = (projectId: string) => {
+    const project = oldProjects.find(p => p.id === projectId)
+    if (project) {
+      setProjectTitle(project.title)
+      setPlatform(project.platform)
+      setFormat(project.format)
+      setScriptSections(project.sections as ScriptSection[])
+      setIsProjectCreated(true)
+      setShowOldProjects(false)
+      toast({
+        title: "Project loaded",
+        description: `Loaded "${project.title}" for editing`,
+      })
     }
   }
 
@@ -230,6 +279,10 @@ export default function ScriptCreation() {
     }
   }
 
+  const getBorderColorFromBg = (bgColor: string) => {
+    return bgColor.replace('bg-', 'border-')
+  }
+
   return (
     <div className="flex h-screen bg-background">
       {/* Metadata Display Bar - Only show after project is created */}
@@ -263,15 +316,63 @@ export default function ScriptCreation() {
         <div className="p-6 border-b border-border">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-2xl font-bold text-text-primary">Create New Script</h1>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowReferenceLibrary(!showReferenceLibrary)}
-            >
-              <FolderOpen className="w-4 h-4 mr-2" />
-              Reference Library
-            </Button>
+            <div className="flex space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowOldProjects(!showOldProjects)}
+              >
+                <FolderOpen className="w-4 h-4 mr-2" />
+                Open Old Project
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowReferenceLibrary(!showReferenceLibrary)}
+              >
+                <FileText className="w-4 h-4 mr-2" />
+                Reference Library
+              </Button>
+            </div>
           </div>
+
+          {/* Old Projects Modal */}
+          {showOldProjects && (
+            <Card className="mb-4 bg-surface border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium flex items-center justify-between">
+                  Previous Projects
+                  <Button variant="ghost" size="sm" onClick={() => setShowOldProjects(false)}>
+                    <X className="w-4 h-4" />
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {oldProjects.map(project => (
+                  <div key={project.id} className="border rounded-lg p-3 bg-background">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="font-medium text-sm">{project.title}</h3>
+                        <p className="text-xs text-text-secondary">{project.platform} • {project.format}</p>
+                        <p className="text-xs text-text-secondary">Created: {project.createdAt}</p>
+                      </div>
+                      <Button size="sm" onClick={() => loadOldProject(project.id)}>
+                        <Edit3 className="w-4 h-4 mr-1" />
+                        Edit
+                      </Button>
+                    </div>
+                    <div className="mt-2 flex space-x-1">
+                      {project.sections.map(section => (
+                        <Badge key={section.id} className={`text-xs ${section.color} text-white`}>
+                          {section.tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          )}
 
           {/* Reference Library Modal */}
           {showReferenceLibrary && (
@@ -506,7 +607,7 @@ export default function ScriptCreation() {
                   key={section.id} 
                   className={`bg-surface transition-all cursor-pointer border-2 ${
                     section.isDone ? 'opacity-60' : ''
-                  } ${focusedSection === section.id ? section.color.replace('bg-', 'border-') : 'border-border'} ${section.hoverColor.replace('100', '300')}`}
+                  } ${focusedSection === section.id ? getBorderColorFromBg(section.color) : 'border-border'} hover:${getBorderColorFromBg(section.color)}/60`}
                   onClick={() => focusOnSection(section.id)}
                 >
                   <CardHeader className="pb-3">
