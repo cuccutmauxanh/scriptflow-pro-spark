@@ -47,6 +47,7 @@ import { Layout } from "@/components/layout";
 import { ExportManager } from "@/components/export-manager";
 import { VersionHistory } from "@/components/version-history";
 import { RAGAssistant } from "@/components/rag-assistant";
+import { ReferenceLibrary } from "@/components/reference-library";
 import { useToast } from "@/hooks/use-toast";
 
 interface ChatMessage {
