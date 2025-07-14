@@ -27,11 +27,6 @@ import { cn } from "@/lib/utils"
 
 const navigationItems = [
   { title: "Home", url: "/", icon: Home },
-  { title: "Script Generator", url: "/generator", icon: Bot },
-  { title: "Script Editor", url: "/editor", icon: Edit3 },
-  { title: "Claude Assistant", url: "/assistant", icon: MessageSquare },
-  { title: "Knowledge Base", url: "/knowledge", icon: BookOpen },
-  { title: "Library", url: "/library", icon: Library },
   { title: "Settings", url: "/settings", icon: Settings },
 ]
 
@@ -59,18 +54,6 @@ export function AppSidebar() {
           </div>
         </div>
 
-        {/* New Script Button */}
-        <div className="mb-6">
-          <Button 
-            asChild 
-            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft h-11"
-          >
-            <NavLink to="/generator">
-              <Plus className="w-4 h-4 mr-2" />
-              New Script
-            </NavLink>
-          </Button>
-        </div>
 
         {/* Navigation */}
         <SidebarGroup>

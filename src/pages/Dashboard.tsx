@@ -97,48 +97,15 @@ export default function Dashboard() {
   return (
     <div className="p-6 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-text-primary mb-2">Script Dashboard</h1>
-          <p className="text-text-secondary">Manage your AI-generated scripts and start new projects</p>
-        </div>
-        
+      <div className="text-center mb-12">
+        <h1 className="text-3xl font-bold text-text-primary mb-4">AutoScriptor Pro</h1>
         <Button 
-          className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft h-11 px-6"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft h-12 px-8 text-lg"
+          onClick={() => handleScriptAction("creating new script", "new")}
         >
-          <Plus className="w-4 h-4 mr-2" />
-          New Script
+          <Plus className="w-5 h-5 mr-3" />
+          Create New Script
         </Button>
-      </div>
-
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <Card className="bg-surface border-border">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-text-secondary text-sm font-medium">Total Scripts</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-text-primary">{stats.totalScripts}</div>
-          </CardContent>
-        </Card>
-        
-        <Card className="bg-surface border-border">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-text-secondary text-sm font-medium">Most Used Platform</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-text-primary">{stats.mostUsedPlatform}</div>
-          </CardContent>
-        </Card>
-        
-        <Card className="bg-surface border-border">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-text-secondary text-sm font-medium">Last Generated</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-lg font-medium text-text-primary truncate">{stats.lastGenerated}</div>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Filters */}
