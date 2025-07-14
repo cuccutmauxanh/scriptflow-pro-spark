@@ -1,10 +1,11 @@
-import { useState } from "react"
-import { Plus, BarChart3 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { ScriptCard } from "@/components/script-card"
-import { DashboardFilters } from "@/components/dashboard-filters"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { useToast } from "@/hooks/use-toast"
+import { useState, useEffect } from "react";
+import { Plus, BarChart3, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ScriptCard } from "@/components/script-card";
+import { DashboardFilters } from "@/components/dashboard-filters";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { OnboardingFlow, QuickTour } from "@/components/onboarding";
+import { useToast } from "@/hooks/use-toast";
 
 // Mock data for demonstration
 const mockScripts = [
@@ -15,16 +16,16 @@ const mockScripts = [
     style: "Tutorial",
     status: "final" as const,
     lastEdited: "2 hours ago",
-    wordCount: 1250
+    wordCount: 1250,
   },
   {
-    id: "2", 
+    id: "2",
     title: "10 AI Tools That Will Change Your Life",
     platform: "TikTok",
     style: "Review",
     status: "draft" as const,
     lastEdited: "1 day ago",
-    wordCount: 850
+    wordCount: 850,
   },
   {
     id: "3",
@@ -33,7 +34,7 @@ const mockScripts = [
     style: "Vlog",
     status: "exported" as const,
     lastEdited: "3 days ago",
-    wordCount: 920
+    wordCount: 920,
   },
   {
     id: "4",
@@ -42,7 +43,7 @@ const mockScripts = [
     style: "Educational",
     status: "final" as const,
     lastEdited: "1 week ago",
-    wordCount: 1680
+    wordCount: 1680,
   },
   {
     id: "5",
@@ -51,7 +52,7 @@ const mockScripts = [
     style: "Tutorial",
     status: "draft" as const,
     lastEdited: "2 weeks ago",
-    wordCount: 650
+    wordCount: 650,
   },
   {
     id: "6",
@@ -60,46 +61,53 @@ const mockScripts = [
     style: "Story",
     status: "exported" as const,
     lastEdited: "1 month ago",
-    wordCount: 1350
-  }
-]
+    wordCount: 1350,
+  },
+];
 
 export default function Dashboard() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [platformFilter, setPlatformFilter] = useState("All Platforms")
-  const [styleFilter, setStyleFilter] = useState("All Styles")
-  const [statusFilter, setStatusFilter] = useState("All Status")
-  const { toast } = useToast()
+  const [searchQuery, setSearchQuery] = useState("");
+  const [platformFilter, setPlatformFilter] = useState("All Platforms");
+  const [styleFilter, setStyleFilter] = useState("All Styles");
+  const [statusFilter, setStatusFilter] = useState("All Status");
+  const { toast } = useToast();
 
-  const filteredScripts = mockScripts.filter(script => {
-    const matchesSearch = script.title.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesPlatform = platformFilter === "All Platforms" || script.platform === platformFilter
-    const matchesStyle = styleFilter === "All Styles" || script.style === styleFilter
-    const matchesStatus = statusFilter === "All Status" || 
-      script.status.toLowerCase() === statusFilter.toLowerCase()
-    
-    return matchesSearch && matchesPlatform && matchesStyle && matchesStatus
-  })
+  const filteredScripts = mockScripts.filter((script) => {
+    const matchesSearch = script.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesPlatform =
+      platformFilter === "All Platforms" || script.platform === platformFilter;
+    const matchesStyle =
+      styleFilter === "All Styles" || script.style === styleFilter;
+    const matchesStatus =
+      statusFilter === "All Status" ||
+      script.status.toLowerCase() === statusFilter.toLowerCase();
+
+    return matchesSearch && matchesPlatform && matchesStyle && matchesStatus;
+  });
 
   const handleScriptAction = (action: string, id: string) => {
     toast({
       title: `Script ${action}`,
       description: `Script with ID ${id} has been ${action.toLowerCase()}.`,
-    })
-  }
+    });
+  };
 
   const stats = {
     totalScripts: mockScripts.length,
     mostUsedPlatform: "YouTube",
-    lastGenerated: "Complete Guide to React Hooks"
-  }
+    lastGenerated: "Complete Guide to React Hooks",
+  };
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="text-center mb-12">
-        <h1 className="text-3xl font-bold text-text-primary mb-4">AutoScriptor Pro</h1>
-        <Button 
+        <h1 className="text-3xl font-bold text-text-primary mb-4">
+          AutoScriptor Pro
+        </h1>
+        <Button
           asChild
           className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft h-12 px-8 text-lg"
         >
@@ -136,12 +144,16 @@ export default function Dashboard() {
               <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
                 <BarChart3 className="w-8 h-8 text-text-muted" />
               </div>
-              <h3 className="text-lg font-medium text-text-primary mb-2">No scripts found</h3>
+              <h3 className="text-lg font-medium text-text-primary mb-2">
+                No scripts found
+              </h3>
               <p className="text-text-secondary mb-6">
-                {searchQuery || platformFilter !== "All Platforms" || styleFilter !== "All Styles" || statusFilter !== "All Status"
+                {searchQuery ||
+                platformFilter !== "All Platforms" ||
+                styleFilter !== "All Styles" ||
+                statusFilter !== "All Status"
                   ? "Try adjusting your filters to see more results."
-                  : "Get started by creating your first AI-generated script."
-                }
+                  : "Get started by creating your first AI-generated script."}
               </p>
               <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
                 <Plus className="w-4 h-4 mr-2" />
@@ -155,7 +167,9 @@ export default function Dashboard() {
               <ScriptCard
                 key={script.id}
                 script={script}
-                onOpen={(id) => window.location.href = `/create?scriptId=${id}`}
+                onOpen={(id) =>
+                  (window.location.href = `/create?scriptId=${id}`)
+                }
                 onRename={(id) => handleScriptAction("renamed", id)}
                 onDuplicate={(id) => handleScriptAction("duplicated", id)}
                 onDelete={(id) => handleScriptAction("deleted", id)}
@@ -166,5 +180,5 @@ export default function Dashboard() {
         )}
       </div>
     </div>
-  )
+  );
 }
