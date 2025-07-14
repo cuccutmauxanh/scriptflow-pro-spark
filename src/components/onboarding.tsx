@@ -78,40 +78,39 @@ export function OnboardingFlow({
       description: "Let's set up your AI to create perfect content for you",
       icon: <Sparkles className="w-8 h-8 text-primary" />,
       component: (
-        <div className="space-y-6 text-center">
-          <div className="w-24 h-24 bg-primary/20 rounded-full flex items-center justify-center mx-auto">
-            <Sparkles className="w-12 h-12 text-primary" />
+        <div className="space-y-6 text-center animate-in fade-in duration-500">
+          <div className="w-24 h-24 bg-primary/20 rounded-full flex items-center justify-center mx-auto animate-in zoom-in duration-700 delay-200">
+            <Sparkles className="w-12 h-12 text-primary animate-pulse" />
           </div>
-          <div>
+          <div className="animate-in slide-in-from-bottom duration-500 delay-300">
             <h2 className="text-2xl font-bold text-text-primary mb-2">
               AutoScriptor Pro
             </h2>
             <p className="text-text-secondary">
-              AI-powered script generation với tính năng collaboration và
-              analytics
+              AI-powered script generation with collaboration and analytics
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 bg-surface rounded-lg">
+          <div className="grid grid-cols-2 gap-4 animate-in slide-in-from-bottom duration-500 delay-500">
+            <div className="p-4 bg-surface rounded-lg hover:scale-105 transition-transform duration-300">
               <Video className="w-6 h-6 text-primary mx-auto mb-2" />
               <h3 className="font-medium text-sm">Multi-platform</h3>
               <p className="text-xs text-text-secondary">
                 YouTube, TikTok, Instagram
               </p>
             </div>
-            <div className="p-4 bg-surface rounded-lg">
+            <div className="p-4 bg-surface rounded-lg hover:scale-105 transition-transform duration-300">
               <Users className="w-6 h-6 text-primary mx-auto mb-2" />
               <h3 className="font-medium text-sm">Team Collaboration</h3>
               <p className="text-xs text-text-secondary">Real-time editing</p>
             </div>
-            <div className="p-4 bg-surface rounded-lg">
+            <div className="p-4 bg-surface rounded-lg hover:scale-105 transition-transform duration-300">
               <Target className="w-6 h-6 text-primary mx-auto mb-2" />
               <h3 className="font-medium text-sm">AI Insights</h3>
               <p className="text-xs text-text-secondary">
                 Performance optimization
               </p>
             </div>
-            <div className="p-4 bg-surface rounded-lg">
+            <div className="p-4 bg-surface rounded-lg hover:scale-105 transition-transform duration-300">
               <Rocket className="w-6 h-6 text-primary mx-auto mb-2" />
               <h3 className="font-medium text-sm">Export Formats</h3>
               <p className="text-xs text-text-secondary">PDF, DOCX, SRT</p>
@@ -126,30 +125,31 @@ export function OnboardingFlow({
       description: "Help AI understand you to provide personalized suggestions",
       icon: <Users className="w-8 h-8 text-primary" />,
       component: (
-        <div className="space-y-6">
+        <div className="space-y-6 animate-in slide-in-from-right duration-500">
           <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Tên của bạn</Label>
+            <div className="space-y-2 animate-in fade-in duration-500 delay-100">
+              <Label htmlFor="name">Your Name</Label>
               <Input
                 id="name"
                 value={preferences.name}
                 onChange={(e) =>
                   setPreferences((prev) => ({ ...prev, name: e.target.value }))
                 }
-                placeholder="Nhập tên của bạn"
+                placeholder="Enter your name"
+                className="transition-all duration-300 focus:scale-[1.02]"
               />
             </div>
 
-            <div className="space-y-2">
-              <Label>Vai trò của bạn</Label>
+            <div className="space-y-2 animate-in fade-in duration-500 delay-200">
+              <Label>Your Role</Label>
               <Select
                 value={preferences.role}
                 onValueChange={(value) =>
                   setPreferences((prev) => ({ ...prev, role: value }))
                 }
               >
-                <SelectTrigger>
-                  <SelectValue placeholder="Chọn vai trò" />
+                <SelectTrigger className="transition-all duration-300 hover:border-primary/50">
+                  <SelectValue placeholder="Select your role" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="content-creator">
@@ -159,33 +159,31 @@ export function OnboardingFlow({
                   <SelectItem value="educator">Educator</SelectItem>
                   <SelectItem value="entrepreneur">Entrepreneur</SelectItem>
                   <SelectItem value="student">Student</SelectItem>
-                  <SelectItem value="other">Khác</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
-            <div className="space-y-2">
-              <Label>Kinh nghiệm tạo content</Label>
+            <div className="space-y-2 animate-in fade-in duration-500 delay-300">
+              <Label>Content Creation Experience</Label>
               <Select
                 value={preferences.experience}
                 onValueChange={(value) =>
                   setPreferences((prev) => ({ ...prev, experience: value }))
                 }
               >
-                <SelectTrigger>
-                  <SelectValue placeholder="Chọn mức độ kinh nghiệm" />
+                <SelectTrigger className="transition-all duration-300 hover:border-primary/50">
+                  <SelectValue placeholder="Select experience level" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="beginner">
-                    Mới bắt đầu (dưới 1 năm)
+                    Beginner (under 1 year)
                   </SelectItem>
                   <SelectItem value="intermediate">
-                    Trung cấp (1-3 năm)
+                    Intermediate (1-3 years)
                   </SelectItem>
-                  <SelectItem value="advanced">Nâng cao (3-5 năm)</SelectItem>
-                  <SelectItem value="expert">
-                    Chuyên gia (trên 5 năm)
-                  </SelectItem>
+                  <SelectItem value="advanced">Advanced (3-5 years)</SelectItem>
+                  <SelectItem value="expert">Expert (over 5 years)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -196,15 +194,14 @@ export function OnboardingFlow({
     {
       id: "platforms",
       title: "Platforms & Content Types",
-      description: "Chọn nền tảng và loại content bạn thường tạo",
+      description:
+        "Choose the platforms and content types you typically create",
       icon: <Video className="w-8 h-8 text-primary" />,
       component: (
-        <div className="space-y-6">
+        <div className="space-y-6 animate-in slide-in-from-right duration-500">
           <div className="space-y-4">
-            <div>
-              <Label className="text-base font-medium">
-                Platforms bạn sử dụng
-              </Label>
+            <div className="animate-in fade-in duration-500 delay-100">
+              <Label className="text-base font-medium">Platforms you use</Label>
               <div className="grid grid-cols-2 gap-3 mt-3">
                 {[
                   "YouTube",
@@ -213,8 +210,11 @@ export function OnboardingFlow({
                   "Facebook",
                   "Twitter",
                   "LinkedIn",
-                ].map((platform) => (
-                  <div key={platform} className="flex items-center space-x-2">
+                ].map((platform, index) => (
+                  <div
+                    key={platform}
+                    className={`flex items-center space-x-2 animate-in fade-in duration-300 delay-${100 + index * 50}`}
+                  >
                     <Checkbox
                       id={platform}
                       checked={preferences.platforms.includes(platform)}
@@ -233,8 +233,12 @@ export function OnboardingFlow({
                           }));
                         }
                       }}
+                      className="transition-all duration-200 hover:scale-110"
                     />
-                    <Label htmlFor={platform} className="text-sm font-normal">
+                    <Label
+                      htmlFor={platform}
+                      className="text-sm font-normal cursor-pointer hover:text-primary transition-colors"
+                    >
                       {platform}
                     </Label>
                   </div>
@@ -242,9 +246,9 @@ export function OnboardingFlow({
               </div>
             </div>
 
-            <div>
+            <div className="animate-in fade-in duration-500 delay-400">
               <Label className="text-base font-medium">
-                Loại content bạn tạo
+                Content types you create
               </Label>
               <div className="grid grid-cols-2 gap-3 mt-3">
                 {[
@@ -254,8 +258,11 @@ export function OnboardingFlow({
                   "Educational",
                   "Entertainment",
                   "Business",
-                ].map((type) => (
-                  <div key={type} className="flex items-center space-x-2">
+                ].map((type, index) => (
+                  <div
+                    key={type}
+                    className={`flex items-center space-x-2 animate-in fade-in duration-300 delay-${400 + index * 50}`}
+                  >
                     <Checkbox
                       id={type}
                       checked={preferences.contentTypes.includes(type)}
@@ -274,8 +281,12 @@ export function OnboardingFlow({
                           }));
                         }
                       }}
+                      className="transition-all duration-200 hover:scale-110"
                     />
-                    <Label htmlFor={type} className="text-sm font-normal">
+                    <Label
+                      htmlFor={type}
+                      className="text-sm font-normal cursor-pointer hover:text-primary transition-colors"
+                    >
                       {type}
                     </Label>
                   </div>
@@ -288,24 +299,27 @@ export function OnboardingFlow({
     },
     {
       id: "goals",
-      title: "Mục tiêu & Style",
-      description: "Xác định mục tiêu và phong cách viết của bạn",
+      title: "Goals & Style",
+      description: "Define your goals and writing style preferences",
       icon: <Target className="w-8 h-8 text-primary" />,
       component: (
-        <div className="space-y-6">
+        <div className="space-y-6 animate-in slide-in-from-right duration-500">
           <div className="space-y-4">
-            <div>
-              <Label className="text-base font-medium">Mục tiêu chính</Label>
+            <div className="animate-in fade-in duration-500 delay-100">
+              <Label className="text-base font-medium">Primary goals</Label>
               <div className="grid grid-cols-1 gap-3 mt-3">
                 {[
-                  "Tăng subscriber/follower",
-                  "Cải thiện engagement",
-                  "Tạo content nhanh hơn",
-                  "Học cách viết script tốt hơn",
-                  "Phát triển thương hiệu cá nhân",
-                  "Tăng doanh thu",
-                ].map((goal) => (
-                  <div key={goal} className="flex items-center space-x-2">
+                  "Increase subscribers/followers",
+                  "Improve engagement",
+                  "Create content faster",
+                  "Learn better scriptwriting",
+                  "Build personal brand",
+                  "Increase revenue",
+                ].map((goal, index) => (
+                  <div
+                    key={goal}
+                    className={`flex items-center space-x-2 animate-in fade-in duration-300 delay-${100 + index * 50}`}
+                  >
                     <Checkbox
                       id={goal}
                       checked={preferences.goals.includes(goal)}
@@ -322,8 +336,12 @@ export function OnboardingFlow({
                           }));
                         }
                       }}
+                      className="transition-all duration-200 hover:scale-110"
                     />
-                    <Label htmlFor={goal} className="text-sm font-normal">
+                    <Label
+                      htmlFor={goal}
+                      className="text-sm font-normal cursor-pointer hover:text-primary transition-colors"
+                    >
                       {goal}
                     </Label>
                   </div>
@@ -331,16 +349,16 @@ export function OnboardingFlow({
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label>Phong cách viết</Label>
+            <div className="space-y-2 animate-in fade-in duration-500 delay-400">
+              <Label>Writing style</Label>
               <Select
                 value={preferences.writingStyle}
                 onValueChange={(value) =>
                   setPreferences((prev) => ({ ...prev, writingStyle: value }))
                 }
               >
-                <SelectTrigger>
-                  <SelectValue placeholder="Chọn phong cách" />
+                <SelectTrigger className="transition-all duration-300 hover:border-primary/50">
+                  <SelectValue placeholder="Choose style" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="casual">Casual & Friendly</SelectItem>
@@ -354,16 +372,16 @@ export function OnboardingFlow({
               </Select>
             </div>
 
-            <div className="space-y-2">
-              <Label>Đối tượng mục tiêu</Label>
+            <div className="space-y-2 animate-in fade-in duration-500 delay-500">
+              <Label>Target audience</Label>
               <Select
                 value={preferences.audience}
                 onValueChange={(value) =>
                   setPreferences((prev) => ({ ...prev, audience: value }))
                 }
               >
-                <SelectTrigger>
-                  <SelectValue placeholder="Chọn đối tượng" />
+                <SelectTrigger className="transition-all duration-300 hover:border-primary/50">
+                  <SelectValue placeholder="Choose audience" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="teens">Teenagers (13-17)</SelectItem>
@@ -382,58 +400,70 @@ export function OnboardingFlow({
     },
     {
       id: "complete",
-      title: "Hoàn thành thiết lập!",
-      description: "AI đã sẵn sàng tạo content phù hợp với bạn",
+      title: "Setup Complete!",
+      description: "Your AI is ready to create personalized content",
       icon: <CheckCircle className="w-8 h-8 text-green-500" />,
       component: (
-        <div className="space-y-6 text-center">
-          <div className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto">
-            <CheckCircle className="w-12 h-12 text-green-500" />
+        <div className="space-y-6 text-center animate-in fade-in duration-500">
+          <div className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto animate-in zoom-in duration-700 delay-200">
+            <CheckCircle className="w-12 h-12 text-green-500 animate-pulse" />
           </div>
-          <div>
+          <div className="animate-in slide-in-from-bottom duration-500 delay-300">
             <h2 className="text-2xl font-bold text-text-primary mb-2">
-              Tuyệt vời!
+              Perfect!
             </h2>
             <p className="text-text-secondary">
-              AutoScriptor Pro đã được cá nhân hóa cho bạn
+              AutoScriptor Pro has been personalized for you
             </p>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-4 animate-in slide-in-from-bottom duration-500 delay-500">
             <div className="p-4 bg-surface rounded-lg text-left">
               <h3 className="font-medium text-text-primary mb-2">
-                Những gì bạn sẽ nhận được:
+                What you'll get:
               </h3>
               <ul className="space-y-2 text-sm text-text-secondary">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-4 h-4 text-green-500" />
-                  Scripts được tối ưu cho {preferences.platforms.join(", ")}
+                  Scripts optimized for {preferences.platforms.join(", ")}
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-4 h-4 text-green-500" />
-                  Phong cách {preferences.writingStyle} phù hợp với audience
+                  {preferences.writingStyle} style matching your audience
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-4 h-4 text-green-500" />
-                  AI insights dựa trên mục tiêu của bạn
+                  AI insights based on your goals
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-4 h-4 text-green-500" />
-                  Gợi ý cải thiện performance real-time
+                  Real-time performance improvement suggestions
                 </li>
               </ul>
             </div>
 
             <div className="grid grid-cols-3 gap-3">
-              <Button variant="outline" size="sm" className="gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2 hover:scale-105 transition-transform duration-200"
+              >
                 <Play className="w-4 h-4" />
                 Quick Start
               </Button>
-              <Button variant="outline" size="sm" className="gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2 hover:scale-105 transition-transform duration-200"
+              >
                 <BookOpen className="w-4 h-4" />
                 Tutorials
               </Button>
-              <Button variant="outline" size="sm" className="gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2 hover:scale-105 transition-transform duration-200"
+              >
                 <Lightbulb className="w-4 h-4" />
                 Tips
               </Button>
@@ -486,11 +516,11 @@ export function OnboardingFlow({
 
   return (
     <Dialog open={isOpen} onOpenChange={() => {}}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto animate-in zoom-in duration-300">
         <DialogHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              {steps[currentStep].icon}
+              <div className="animate-pulse">{steps[currentStep].icon}</div>
               <div>
                 <DialogTitle className="text-left">
                   {steps[currentStep].title}
@@ -500,11 +530,17 @@ export function OnboardingFlow({
                 </p>
               </div>
             </div>
-            <Badge variant="outline">
+            <Badge
+              variant="outline"
+              className="animate-in slide-in-from-right duration-300"
+            >
               {currentStep + 1} / {steps.length}
             </Badge>
           </div>
-          <Progress value={progress} className="w-full" />
+          <Progress
+            value={progress}
+            className="w-full transition-all duration-500 ease-out"
+          />
         </DialogHeader>
 
         <div className="py-6">{steps[currentStep].component}</div>
@@ -514,23 +550,24 @@ export function OnboardingFlow({
             variant="outline"
             onClick={handlePrevious}
             disabled={currentStep === 0}
+            className="transition-all duration-200 hover:scale-105 disabled:hover:scale-100"
           >
-            Quay lại
+            Back
           </Button>
 
           <Button
             onClick={handleNext}
             disabled={!isStepValid()}
-            className="gap-2"
+            className="gap-2 transition-all duration-200 hover:scale-105 disabled:hover:scale-100"
           >
             {currentStep === steps.length - 1 ? (
               <>
-                Bắt đầu
+                Get Started
                 <Rocket className="w-4 h-4" />
               </>
             ) : (
               <>
-                Tiếp tục
+                Continue
                 <ArrowRight className="w-4 h-4" />
               </>
             )}
@@ -553,41 +590,42 @@ export function QuickTour({
   const tips = [
     {
       title: "AI Chat Assistant",
-      description: "Mô tả ý tưởng content của bạn, AI sẽ tạo script tự động",
+      description:
+        "Describe your content ideas and AI will automatically generate scripts",
       target: "chat-input",
     },
     {
       title: "Smart Suggestions",
-      description: "Nhận gợi ý cải thiện dựa trên performance data",
+      description: "Get improvement suggestions based on performance data",
       target: "suggestions-tab",
     },
     {
       title: "Collaborative Editing",
-      description: "Invite team members để cùng chỉnh sửa script real-time",
+      description: "Invite team members to edit scripts in real-time",
       target: "share-button",
     },
     {
       title: "Export Options",
-      description: "Export script sang nhiều format: PDF, DOCX, SRT",
+      description: "Export scripts to multiple formats: PDF, DOCX, SRT",
       target: "export-button",
     },
     {
       title: "Version History",
-      description: "Track changes và revert về version trước đó",
+      description: "Track changes and revert to previous versions",
       target: "history-button",
     },
   ];
 
   return (
     <Dialog open={isOpen} onOpenChange={() => {}}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md animate-in zoom-in duration-300">
         <DialogHeader>
           <DialogTitle>Quick Tour</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
-          <div className="text-center">
-            <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="text-center animate-in fade-in duration-500">
+            <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
               <Lightbulb className="w-8 h-8 text-primary" />
             </div>
             <h3 className="font-semibold text-text-primary">
@@ -602,8 +640,8 @@ export function QuickTour({
             {tips.map((_, index) => (
               <div
                 key={index}
-                className={`w-2 h-2 rounded-full ${
-                  index === currentTip ? "bg-primary" : "bg-border"
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === currentTip ? "bg-primary scale-125" : "bg-border"
                 }`}
               />
             ))}
@@ -611,16 +649,21 @@ export function QuickTour({
         </div>
 
         <div className="flex justify-between pt-4">
-          <Button variant="outline" onClick={onComplete}>
-            Bỏ qua
+          <Button
+            variant="outline"
+            onClick={onComplete}
+            className="hover:scale-105 transition-transform duration-200"
+          >
+            Skip
           </Button>
           <div className="space-x-2">
             {currentTip > 0 && (
               <Button
                 variant="outline"
                 onClick={() => setCurrentTip(currentTip - 1)}
+                className="hover:scale-105 transition-transform duration-200"
               >
-                Trước
+                Previous
               </Button>
             )}
             <Button
@@ -631,8 +674,9 @@ export function QuickTour({
                   onComplete();
                 }
               }}
+              className="hover:scale-105 transition-transform duration-200"
             >
-              {currentTip === tips.length - 1 ? "Hoàn thành" : "Tiếp"}
+              {currentTip === tips.length - 1 ? "Complete" : "Next"}
             </Button>
           </div>
         </div>
