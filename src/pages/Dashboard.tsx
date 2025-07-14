@@ -104,7 +104,7 @@ export default function Dashboard() {
     });
   };
 
-  const handleOnboardingComplete = (preferences: any) => {
+  const handleOnboardingComplete = (preferences: unknown) => {
     localStorage.setItem("autoscriptor-onboarded", "true");
     localStorage.setItem(
       "autoscriptor-preferences",
