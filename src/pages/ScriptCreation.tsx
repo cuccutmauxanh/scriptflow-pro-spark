@@ -29,7 +29,10 @@ interface ScriptSection {
   content: string
   tag: string
   color: string
+  hoverColor: string
   isDone: boolean
+  startTime?: string
+  endTime?: string
 }
 
 export default function ScriptCreation() {
@@ -78,7 +81,10 @@ export default function ScriptCreation() {
           content: "Did you know that 90% of people quit learning to code within the first month? But what if I told you there's a simple trick that changes everything?",
           tag: "#Hook",
           color: "bg-purple-500",
-          isDone: false
+          hoverColor: "hover:bg-purple-100",
+          isDone: false,
+          startTime: "0:00",
+          endTime: "0:15"
         },
         {
           id: "intro",
@@ -86,7 +92,10 @@ export default function ScriptCreation() {
           content: "Hey everyone! I'm back with another coding tutorial, and today we're diving into something that completely transformed how I approach learning new technologies.",
           tag: "#Intro",
           color: "bg-blue-500",
-          isDone: false
+          hoverColor: "hover:bg-blue-100",
+          isDone: false,
+          startTime: "0:15",
+          endTime: "0:30"
         },
         {
           id: "body",
@@ -94,7 +103,10 @@ export default function ScriptCreation() {
           content: "The secret isn't about studying more hours or finding the perfect course. It's about building projects that you actually care about. Here's exactly how to do it...",
           tag: "#Body",
           color: "bg-green-500",
-          isDone: false
+          hoverColor: "hover:bg-green-100",
+          isDone: false,
+          startTime: "0:30",
+          endTime: "2:45"
         },
         {
           id: "outro",
@@ -102,7 +114,10 @@ export default function ScriptCreation() {
           content: "So there you have it - the key to mastering any coding skill is building something you're passionate about. It keeps you motivated through the tough parts.",
           tag: "#Outro",
           color: "bg-red-500",
-          isDone: false
+          hoverColor: "hover:bg-red-100",
+          isDone: false,
+          startTime: "2:45",
+          endTime: "3:10"
         },
         {
           id: "cta",
@@ -110,7 +125,10 @@ export default function ScriptCreation() {
           content: "If this helped you, smash that like button and subscribe for more coding tips. What project are you going to build first? Let me know in the comments below!",
           tag: "#CTA",
           color: "bg-yellow-500",
-          isDone: false
+          hoverColor: "hover:bg-yellow-100",
+          isDone: false,
+          startTime: "3:10",
+          endTime: "3:30"
         }
       ])
     }, 1500)
@@ -429,9 +447,10 @@ export default function ScriptCreation() {
               {scriptSections.map((section, index) => (
                 <Card 
                   key={section.id} 
-                  className={`bg-surface border-border transition-all ${
+                  className={`bg-surface border-border transition-all cursor-pointer ${
                     section.isDone ? 'opacity-60' : ''
-                  } ${focusedSection === section.id ? 'ring-2 ring-primary' : ''}`}
+                  } ${focusedSection === section.id ? 'ring-2 ring-primary' : ''} ${section.hoverColor}`}
+                  onClick={() => focusOnSection(section.id)}
                 >
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
@@ -439,11 +458,16 @@ export default function ScriptCreation() {
                         <div className={`w-6 h-6 rounded-full ${section.color} flex items-center justify-center mr-3 text-white text-xs font-bold`}>
                           {section.isDone ? <Check className="w-3 h-3" /> : index + 1}
                         </div>
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-3">
                           <span className={`text-xs font-mono px-2 py-1 rounded ${section.color} text-white`}>
                             {section.tag}
                           </span>
                           <span>{section.title}</span>
+                          {section.startTime && section.endTime && (
+                            <Badge variant="secondary" className="text-xs">
+                              {section.startTime} - {section.endTime}
+                            </Badge>
+                          )}
                         </div>
                       </CardTitle>
                       <div className="flex space-x-2">
