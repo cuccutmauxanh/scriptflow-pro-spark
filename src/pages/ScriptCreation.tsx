@@ -48,6 +48,8 @@ export default function ScriptCreation() {
   const [editingSection, setEditingSection] = useState<string | null>(null)
   const [showReferenceLibrary, setShowReferenceLibrary] = useState(false)
   const [focusedSection, setFocusedSection] = useState<string | null>(null)
+  const [showMetadataEdit, setShowMetadataEdit] = useState(false)
+  const [isProjectCreated, setIsProjectCreated] = useState(false)
   const { toast } = useToast()
 
   const handleSendMessage = () => {
@@ -72,6 +74,9 @@ export default function ScriptCreation() {
         timestamp: new Date()
       }
       setChatMessages(prev => [...prev, aiMessage])
+      
+      // Mark project as created
+      setIsProjectCreated(true)
 
       // Generate sample script sections with tags and colors
       setScriptSections([
@@ -186,7 +191,7 @@ export default function ScriptCreation() {
     setFocusedSection(sectionId)
     const section = scriptSections.find(s => s.id === sectionId)
     if (section) {
-      setChatInput(`Editing: ${section.tag} - `)
+      setChatInput("")
     }
   }
 
@@ -227,8 +232,34 @@ export default function ScriptCreation() {
 
   return (
     <div className="flex h-screen bg-background">
+      {/* Metadata Display Bar - Only show after project is created */}
+      {isProjectCreated && (
+        <div className="fixed top-0 left-0 right-0 z-50 bg-surface border-b border-border p-3">
+          <div className="flex items-center justify-between max-w-screen-xl mx-auto">
+            <div className="flex items-center space-x-4">
+              <span className="font-semibold text-text-primary">{projectTitle || "Untitled Project"}</span>
+              <div className="flex items-center space-x-2">
+                {platform && <Badge variant="secondary" className="text-xs">{platform}</Badge>}
+                {format && <Badge variant="secondary" className="text-xs">{format}</Badge>}
+                {tone && <Badge variant="secondary" className="text-xs">{tone}</Badge>}
+                {duration && <Badge variant="secondary" className="text-xs">{duration}</Badge>}
+              </div>
+            </div>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => setShowMetadataEdit(true)}
+              className="text-text-secondary hover:text-text-primary"
+            >
+              <Edit3 className="w-4 h-4 mr-2" />
+              Edit
+            </Button>
+          </div>
+        </div>
+      )}
+
       {/* Left Panel - Chat & Settings */}
-      <div className="w-1/2 border-r border-border flex flex-col">
+      <div className={`w-1/2 border-r border-border flex flex-col ${isProjectCreated ? 'mt-16' : ''}`}>
         <div className="p-6 border-b border-border">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-2xl font-bold text-text-primary">Create New Script</h1>
@@ -291,7 +322,8 @@ export default function ScriptCreation() {
           )}
           
           {/* Project Info */}
-          <div className="space-y-4">
+          {(!isProjectCreated || showMetadataEdit) && (
+            <div className="space-y-4">
             <Input
               placeholder="Project Title"
               value={projectTitle}
@@ -350,7 +382,19 @@ export default function ScriptCreation() {
                 </SelectContent>
               </Select>
             </div>
+            
+            {showMetadataEdit && (
+              <div className="flex justify-end space-x-2 pt-2">
+                <Button variant="outline" size="sm" onClick={() => setShowMetadataEdit(false)}>
+                  Cancel
+                </Button>
+                <Button size="sm" onClick={() => setShowMetadataEdit(false)}>
+                  Save Changes
+                </Button>
+              </div>
+            )}
           </div>
+          )}
         </div>
 
         {/* Current Context Display */}
@@ -404,23 +448,33 @@ export default function ScriptCreation() {
             </label>
           </div>
           
-          <div className="flex space-x-2">
-            <Textarea
-              placeholder="Describe your script idea or ask for changes..."
-              value={chatInput}
-              onChange={(e) => setChatInput(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), handleSendMessage())}
-              className="flex-1 min-h-[60px] bg-surface border-border resize-none"
-            />
-            <Button onClick={handleSendMessage} className="self-end">
-              <Send className="w-4 h-4" />
-            </Button>
+          <div className="flex flex-col space-y-2">
+            {focusedSection && (
+              <div className="flex items-center space-x-2 p-2 bg-accent/20 rounded">
+                <span className={`text-xs font-mono px-2 py-1 rounded ${scriptSections.find(s => s.id === focusedSection)?.color} text-white`}>
+                  {scriptSections.find(s => s.id === focusedSection)?.tag}
+                </span>
+                <span className="text-sm text-text-secondary">Đang chỉnh sửa chi tiết phần này</span>
+              </div>
+            )}
+            <div className="flex space-x-2">
+              <Textarea
+                placeholder={focusedSection ? "Nhập yêu cầu chỉnh sửa cho phần này..." : "Describe your script idea or ask for changes..."}
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), handleSendMessage())}
+                className="flex-1 min-h-[60px] bg-surface border-border resize-none"
+              />
+              <Button onClick={handleSendMessage} className="self-end">
+                <Send className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Right Panel - Generated Script */}
-      <div className="w-1/2 flex flex-col">
+      <div className={`w-1/2 flex flex-col ${isProjectCreated ? 'mt-16' : ''}`}>
         <div className="p-6 border-b border-border flex items-center justify-between">
           <h2 className="text-xl font-semibold text-text-primary">Generated Script</h2>
           <div className="flex space-x-2">
@@ -450,9 +504,9 @@ export default function ScriptCreation() {
               {scriptSections.map((section, index) => (
                 <Card 
                   key={section.id} 
-                  className={`bg-surface border-border transition-all cursor-pointer ${
+                  className={`bg-surface transition-all cursor-pointer border-2 ${
                     section.isDone ? 'opacity-60' : ''
-                  } ${focusedSection === section.id ? `border-2 ${section.color.replace('bg-', 'border-')}` : ''} ${section.hoverColor}`}
+                  } ${focusedSection === section.id ? section.color.replace('bg-', 'border-') : 'border-border'} ${section.hoverColor.replace('100', '300')}`}
                   onClick={() => focusOnSection(section.id)}
                 >
                   <CardHeader className="pb-3">
