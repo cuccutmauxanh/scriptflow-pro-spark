@@ -866,7 +866,7 @@ export default function ScriptCreation() {
                           <Textarea
                             placeholder={
                               focusedSection
-                                ? "Nhập yêu cầu chỉnh sửa cho phần này..."
+                                ? "Nhập yêu cầu ch��nh sửa cho phần này..."
                                 : "Describe your script idea or ask for changes..."
                             }
                             value={chatInput}
@@ -891,9 +891,16 @@ export default function ScriptCreation() {
 
                   <TabsContent
                     value="assistant"
-                    className="flex-1 flex flex-col mt-0 p-4"
+                    className="flex-1 flex flex-col mt-0 p-4 animate-in fade-in duration-500"
                   >
                     <RAGAssistant />
+                  </TabsContent>
+
+                  <TabsContent
+                    value="library"
+                    className="flex-1 flex flex-col mt-0 animate-in fade-in duration-500"
+                  >
+                    <ReferenceLibrary />
                   </TabsContent>
                 </Tabs>
               </div>
