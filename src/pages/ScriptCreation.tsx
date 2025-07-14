@@ -81,18 +81,18 @@ export default function ScriptCreation() {
           content: "Did you know that 90% of people quit learning to code within the first month? But what if I told you there's a simple trick that changes everything?",
           tag: "#Hook",
           color: "bg-purple-500",
-          hoverColor: "hover:bg-purple-100",
+          hoverColor: "hover:bg-purple-200",
           isDone: false,
           startTime: "0:00",
           endTime: "0:15"
         },
         {
           id: "intro",
-          title: "Introduction", 
+          title: "Introduction",
           content: "Hey everyone! I'm back with another coding tutorial, and today we're diving into something that completely transformed how I approach learning new technologies.",
           tag: "#Intro",
           color: "bg-blue-500",
-          hoverColor: "hover:bg-blue-100",
+          hoverColor: "hover:bg-blue-200",
           isDone: false,
           startTime: "0:15",
           endTime: "0:30"
@@ -103,7 +103,7 @@ export default function ScriptCreation() {
           content: "The secret isn't about studying more hours or finding the perfect course. It's about building projects that you actually care about. Here's exactly how to do it...",
           tag: "#Body",
           color: "bg-green-500",
-          hoverColor: "hover:bg-green-100",
+          hoverColor: "hover:bg-green-200",
           isDone: false,
           startTime: "0:30",
           endTime: "2:45"
@@ -114,7 +114,7 @@ export default function ScriptCreation() {
           content: "So there you have it - the key to mastering any coding skill is building something you're passionate about. It keeps you motivated through the tough parts.",
           tag: "#Outro",
           color: "bg-red-500",
-          hoverColor: "hover:bg-red-100",
+          hoverColor: "hover:bg-red-200",
           isDone: false,
           startTime: "2:45",
           endTime: "3:10"
@@ -125,7 +125,7 @@ export default function ScriptCreation() {
           content: "If this helped you, smash that like button and subscribe for more coding tips. What project are you going to build first? Let me know in the comments below!",
           tag: "#CTA",
           color: "bg-yellow-500",
-          hoverColor: "hover:bg-yellow-100",
+          hoverColor: "hover:bg-yellow-200",
           isDone: false,
           startTime: "3:10",
           endTime: "3:30"
@@ -357,8 +357,11 @@ export default function ScriptCreation() {
         {focusedSection && (
           <div className="p-4 border-b border-border bg-accent/20">
             <div className="flex items-center space-x-2">
-              <div className={`w-3 h-3 rounded-full ${scriptSections.find(s => s.id === focusedSection)?.color}`}></div>
-              <span className="text-sm font-medium">Editing: {scriptSections.find(s => s.id === focusedSection)?.tag}</span>
+              <div className={`w-4 h-4 rounded-full ${scriptSections.find(s => s.id === focusedSection)?.color}`}></div>
+              <span className={`text-xs font-mono px-2 py-1 rounded ${scriptSections.find(s => s.id === focusedSection)?.color} text-white`}>
+                {scriptSections.find(s => s.id === focusedSection)?.tag}
+              </span>
+              <span className="text-sm font-medium">Đang chỉnh sửa chi tiết</span>
               <Button variant="ghost" size="sm" onClick={() => setFocusedSection(null)}>
                 <X className="w-3 h-3" />
               </Button>
@@ -449,7 +452,7 @@ export default function ScriptCreation() {
                   key={section.id} 
                   className={`bg-surface border-border transition-all cursor-pointer ${
                     section.isDone ? 'opacity-60' : ''
-                  } ${focusedSection === section.id ? 'ring-2 ring-primary' : ''} ${section.hoverColor}`}
+                  } ${focusedSection === section.id ? `border-2 ${section.color.replace('bg-', 'border-')}` : ''} ${section.hoverColor}`}
                   onClick={() => focusOnSection(section.id)}
                 >
                   <CardHeader className="pb-3">
