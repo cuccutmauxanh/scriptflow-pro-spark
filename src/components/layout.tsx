@@ -31,13 +31,7 @@ export function Layout({ children }: LayoutProps) {
 
             <div className="flex items-center gap-3">
               {/* Notifications */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-text-secondary hover:text-text-primary"
-              >
-                <Bell className="w-5 h-5" />
-              </Button>
+              <NotificationCenter />
 
               {/* User Menu */}
               <DropdownMenu>
