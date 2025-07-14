@@ -122,8 +122,8 @@ export function OnboardingFlow({
     },
     {
       id: "profile",
-      title: "Thông tin cá nhân",
-      description: "Giúp AI hiểu về bạn để đưa ra gợi ý phù hợp",
+      title: "Personal Information",
+      description: "Help AI understand you to provide personalized suggestions",
       icon: <Users className="w-8 h-8 text-primary" />,
       component: (
         <div className="space-y-6">
