@@ -70,7 +70,17 @@ export default function Dashboard() {
   const [platformFilter, setPlatformFilter] = useState("All Platforms");
   const [styleFilter, setStyleFilter] = useState("All Styles");
   const [statusFilter, setStatusFilter] = useState("All Status");
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showTour, setShowTour] = useState(false);
   const { toast } = useToast();
+
+  // Check if user is new (in real app, this would be from user preferences/localStorage)
+  useEffect(() => {
+    const isNewUser = !localStorage.getItem("autoscriptor-onboarded");
+    if (isNewUser) {
+      setShowOnboarding(true);
+    }
+  }, []);
 
   const filteredScripts = mockScripts.filter((script) => {
     const matchesSearch = script.title
