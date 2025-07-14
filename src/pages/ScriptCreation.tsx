@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Send, Upload, FileText, Video, Mic, X, Edit3, RotateCcw, Copy, Download } from "lucide-react"
+import { Send, Upload, FileText, Video, Mic, X, Edit3, RotateCcw, Copy, Download, Check, FolderOpen, Link } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -27,6 +27,9 @@ interface ScriptSection {
   id: string
   title: string
   content: string
+  tag: string
+  color: string
+  isDone: boolean
 }
 
 export default function ScriptCreation() {
@@ -40,6 +43,8 @@ export default function ScriptCreation() {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([])
   const [scriptSections, setScriptSections] = useState<ScriptSection[]>([])
   const [editingSection, setEditingSection] = useState<string | null>(null)
+  const [showReferenceLibrary, setShowReferenceLibrary] = useState(false)
+  const [focusedSection, setFocusedSection] = useState<string | null>(null)
   const { toast } = useToast()
 
   const handleSendMessage = () => {
@@ -65,27 +70,47 @@ export default function ScriptCreation() {
       }
       setChatMessages(prev => [...prev, aiMessage])
 
-      // Generate sample script sections
+      // Generate sample script sections with tags and colors
       setScriptSections([
         {
           id: "hook",
           title: "Hook",
-          content: "Did you know that 90% of people quit learning to code within the first month? But what if I told you there's a simple trick that changes everything?"
+          content: "Did you know that 90% of people quit learning to code within the first month? But what if I told you there's a simple trick that changes everything?",
+          tag: "#Hook",
+          color: "bg-purple-500",
+          isDone: false
         },
         {
           id: "intro",
-          title: "Introduction",
-          content: "Hey everyone! I'm back with another coding tutorial, and today we're diving into something that completely transformed how I approach learning new technologies."
+          title: "Introduction", 
+          content: "Hey everyone! I'm back with another coding tutorial, and today we're diving into something that completely transformed how I approach learning new technologies.",
+          tag: "#Intro",
+          color: "bg-blue-500",
+          isDone: false
         },
         {
           id: "body",
           title: "Main Content",
-          content: "The secret isn't about studying more hours or finding the perfect course. It's about building projects that you actually care about. Here's exactly how to do it..."
+          content: "The secret isn't about studying more hours or finding the perfect course. It's about building projects that you actually care about. Here's exactly how to do it...",
+          tag: "#Body",
+          color: "bg-green-500",
+          isDone: false
         },
         {
           id: "outro",
-          title: "Conclusion & CTA",
-          content: "If this helped you, smash that like button and subscribe for more coding tips. What project are you going to build first? Let me know in the comments below!"
+          title: "Conclusion",
+          content: "So there you have it - the key to mastering any coding skill is building something you're passionate about. It keeps you motivated through the tough parts.",
+          tag: "#Outro",
+          color: "bg-red-500",
+          isDone: false
+        },
+        {
+          id: "cta",
+          title: "Call to Action",
+          content: "If this helped you, smash that like button and subscribe for more coding tips. What project are you going to build first? Let me know in the comments below!",
+          tag: "#CTA",
+          color: "bg-yellow-500",
+          isDone: false
         }
       ])
     }, 1500)
@@ -131,9 +156,25 @@ export default function ScriptCreation() {
     }, 1000)
   }
 
+  const toggleSectionDone = (sectionId: string) => {
+    setScriptSections(prev => prev.map(section => 
+      section.id === sectionId 
+        ? { ...section, isDone: !section.isDone }
+        : section
+    ))
+  }
+
+  const focusOnSection = (sectionId: string) => {
+    setFocusedSection(sectionId)
+    const section = scriptSections.find(s => s.id === sectionId)
+    if (section) {
+      setChatInput(`Editing: ${section.tag} - `)
+    }
+  }
+
   const exportScript = () => {
     const scriptText = scriptSections.map(section => 
-      `${section.title.toUpperCase()}\n${section.content}\n\n`
+      `${section.tag}\n${section.content}\n\n`
     ).join('')
     
     const blob = new Blob([scriptText], { type: 'text/plain' })
@@ -147,6 +188,13 @@ export default function ScriptCreation() {
     toast({
       title: "Script exported",
       description: "Your script has been downloaded as a text file",
+    })
+  }
+
+  const saveToMyScripts = () => {
+    toast({
+      title: "Script saved",
+      description: "Your script has been saved to My Scripts",
     })
   }
 
@@ -164,7 +212,65 @@ export default function ScriptCreation() {
       {/* Left Panel - Chat & Settings */}
       <div className="w-1/2 border-r border-border flex flex-col">
         <div className="p-6 border-b border-border">
-          <h1 className="text-2xl font-bold text-text-primary mb-4">Create New Script</h1>
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-2xl font-bold text-text-primary">Create New Script</h1>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowReferenceLibrary(!showReferenceLibrary)}
+            >
+              <FolderOpen className="w-4 h-4 mr-2" />
+              Reference Library
+            </Button>
+          </div>
+
+          {/* Reference Library Modal */}
+          {showReferenceLibrary && (
+            <Card className="mb-4 bg-surface border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium flex items-center justify-between">
+                  Reference Files & Links
+                  <Button variant="ghost" size="sm" onClick={() => setShowReferenceLibrary(false)}>
+                    <X className="w-4 h-4" />
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {uploadedFiles.length === 0 ? (
+                  <p className="text-text-secondary text-sm">No files uploaded yet</p>
+                ) : (
+                  uploadedFiles.map(file => (
+                    <div key={file.id} className="flex items-center justify-between bg-background rounded p-2">
+                      <div className="flex items-center space-x-2">
+                        {getFileIcon(file.type)}
+                        <div>
+                          <p className="text-sm font-medium">{file.name}</p>
+                          <p className="text-xs text-text-secondary">{file.size}</p>
+                        </div>
+                      </div>
+                      <Button variant="ghost" size="sm" onClick={() => removeFile(file.id)}>
+                        <X className="w-3 h-3" />
+                      </Button>
+                    </div>
+                  ))
+                )}
+                <div className="border-t pt-2 mt-2">
+                  <label className="cursor-pointer">
+                    <input
+                      type="file"
+                      multiple
+                      className="hidden"
+                      onChange={handleFileUpload}
+                    />
+                    <Button variant="outline" size="sm" className="w-full">
+                      <Upload className="w-4 h-4 mr-2" />
+                      Add Files/Links
+                    </Button>
+                  </label>
+                </div>
+              </CardContent>
+            </Card>
+          )}
           
           {/* Project Info */}
           <div className="space-y-4">
@@ -229,29 +335,15 @@ export default function ScriptCreation() {
           </div>
         </div>
 
-        {/* File Upload Area */}
-        {uploadedFiles.length > 0 && (
-          <div className="p-4 border-b border-border">
-            <h3 className="text-sm font-medium text-text-secondary mb-3">Uploaded Files</h3>
-            <div className="space-y-2">
-              {uploadedFiles.map(file => (
-                <div key={file.id} className="flex items-center justify-between bg-surface rounded-lg p-3">
-                  <div className="flex items-center space-x-3">
-                    {getFileIcon(file.type)}
-                    <div>
-                      <p className="text-sm font-medium text-text-primary">{file.name}</p>
-                      <p className="text-xs text-text-secondary">{file.size}</p>
-                    </div>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => removeFile(file.id)}
-                  >
-                    <X className="w-4 h-4" />
-                  </Button>
-                </div>
-              ))}
+        {/* Current Context Display */}
+        {focusedSection && (
+          <div className="p-4 border-b border-border bg-accent/20">
+            <div className="flex items-center space-x-2">
+              <div className={`w-3 h-3 rounded-full ${scriptSections.find(s => s.id === focusedSection)?.color}`}></div>
+              <span className="text-sm font-medium">Editing: {scriptSections.find(s => s.id === focusedSection)?.tag}</span>
+              <Button variant="ghost" size="sm" onClick={() => setFocusedSection(null)}>
+                <X className="w-3 h-3" />
+              </Button>
             </div>
           </div>
         )}
@@ -311,6 +403,9 @@ export default function ScriptCreation() {
         <div className="p-6 border-b border-border flex items-center justify-between">
           <h2 className="text-xl font-semibold text-text-primary">Generated Script</h2>
           <div className="flex space-x-2">
+            <Button variant="outline" size="sm" onClick={saveToMyScripts}>
+              Save Script
+            </Button>
             <Button variant="outline" size="sm" onClick={exportScript}>
               <Download className="w-4 h-4 mr-2" />
               Export
@@ -332,16 +427,34 @@ export default function ScriptCreation() {
           ) : (
             <div className="space-y-6">
               {scriptSections.map((section, index) => (
-                <Card key={section.id} className="bg-surface border-border">
+                <Card 
+                  key={section.id} 
+                  className={`bg-surface border-border transition-all ${
+                    section.isDone ? 'opacity-60' : ''
+                  } ${focusedSection === section.id ? 'ring-2 ring-primary' : ''}`}
+                >
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-lg text-text-primary flex items-center">
-                        <Badge variant="outline" className="mr-3 w-8 h-8 rounded-full p-0 flex items-center justify-center">
-                          {index + 1}
-                        </Badge>
-                        {section.title}
+                        <div className={`w-6 h-6 rounded-full ${section.color} flex items-center justify-center mr-3 text-white text-xs font-bold`}>
+                          {section.isDone ? <Check className="w-3 h-3" /> : index + 1}
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className={`text-xs font-mono px-2 py-1 rounded ${section.color} text-white`}>
+                            {section.tag}
+                          </span>
+                          <span>{section.title}</span>
+                        </div>
                       </CardTitle>
                       <div className="flex space-x-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => focusOnSection(section.id)}
+                          className={focusedSection === section.id ? 'bg-primary text-primary-foreground' : ''}
+                        >
+                          <Edit3 className="w-4 h-4" />
+                        </Button>
                         <Button
                           variant="ghost"
                           size="sm"
@@ -355,6 +468,13 @@ export default function ScriptCreation() {
                           onClick={() => navigator.clipboard.writeText(section.content)}
                         >
                           <Copy className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          variant={section.isDone ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => toggleSectionDone(section.id)}
+                        >
+                          <Check className="w-4 h-4" />
                         </Button>
                       </div>
                     </div>
@@ -387,7 +507,9 @@ export default function ScriptCreation() {
                       </div>
                     ) : (
                       <div
-                        className="text-text-primary leading-relaxed cursor-pointer hover:bg-accent/50 rounded p-2 -m-2 transition-colors"
+                        className={`text-text-primary leading-relaxed cursor-pointer hover:bg-accent/50 rounded p-2 -m-2 transition-colors ${
+                          section.isDone ? 'line-through opacity-70' : ''
+                        }`}
                         onClick={() => setEditingSection(section.id)}
                       >
                         {section.content}
