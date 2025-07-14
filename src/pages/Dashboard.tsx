@@ -155,7 +155,7 @@ export default function Dashboard() {
               <ScriptCard
                 key={script.id}
                 script={script}
-                onOpen={(id) => handleScriptAction("opened", id)}
+                onOpen={(id) => window.location.href = `/create?scriptId=${id}`}
                 onRename={(id) => handleScriptAction("renamed", id)}
                 onDuplicate={(id) => handleScriptAction("duplicated", id)}
                 onDelete={(id) => handleScriptAction("deleted", id)}
