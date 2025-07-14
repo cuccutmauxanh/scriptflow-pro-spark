@@ -747,14 +747,27 @@ export default function ScriptCreation() {
                   onValueChange={setActiveTab}
                   className="flex-1 flex flex-col"
                 >
-                  <TabsList className="grid w-full grid-cols-2 mx-6 mt-4">
-                    <TabsTrigger value="chat" className="gap-2">
+                  <TabsList className="grid w-full grid-cols-3 mx-6 mt-4">
+                    <TabsTrigger
+                      value="chat"
+                      className="gap-2 transition-all duration-200 hover:scale-105"
+                    >
                       <Bot className="w-4 h-4" />
                       AI Chat
                     </TabsTrigger>
-                    <TabsTrigger value="assistant" className="gap-2">
+                    <TabsTrigger
+                      value="assistant"
+                      className="gap-2 transition-all duration-200 hover:scale-105"
+                    >
                       <Bot className="w-4 h-4" />
                       Smart Assistant
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="library"
+                      className="gap-2 transition-all duration-200 hover:scale-105"
+                    >
+                      <BookOpen className="w-4 h-4" />
+                      Reference Library: RAG
                     </TabsTrigger>
                   </TabsList>
 
