@@ -61,7 +61,28 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				/* Custom AutoScriptor Pro colors */
+				surface: 'hsl(var(--surface))',
+				'surface-hover': 'hsl(var(--surface-hover))',
+				'content-bg': 'hsl(var(--content-bg))',
+				'text-primary': 'hsl(var(--text-primary))',
+				'text-secondary': 'hsl(var(--text-secondary))',
+				'text-muted': 'hsl(var(--text-muted))'
+			},
+			backgroundImage: {
+				'brand-gradient': 'var(--brand-gradient)'
+			},
+			boxShadow: {
+				'soft': 'var(--shadow-soft)',
+				'medium': 'var(--shadow-medium)',
+				'strong': 'var(--shadow-strong)'
+			},
+			transitionTimingFunction: {
+				'smooth': 'var(--transition-smooth)'
+			},
+			spacing: {
+				'sidebar': 'var(--sidebar-width)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
