@@ -74,8 +74,8 @@ export function OnboardingFlow({
   const steps: OnboardingStep[] = [
     {
       id: "welcome",
-      title: "Chào mừng đến với AutoScriptor Pro!",
-      description: "Hãy cùng thiết lập AI để tạo content hoàn hảo cho bạn",
+      title: "Welcome to AutoScriptor Pro!",
+      description: "Let's set up your AI to create perfect content for you",
       icon: <Sparkles className="w-8 h-8 text-primary" />,
       component: (
         <div className="space-y-6 text-center">
