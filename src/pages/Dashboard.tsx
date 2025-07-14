@@ -100,11 +100,13 @@ export default function Dashboard() {
       <div className="text-center mb-12">
         <h1 className="text-3xl font-bold text-text-primary mb-4">AutoScriptor Pro</h1>
         <Button 
+          asChild
           className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft h-12 px-8 text-lg"
-          onClick={() => handleScriptAction("creating new script", "new")}
         >
-          <Plus className="w-5 h-5 mr-3" />
-          Create New Script
+          <a href="/create">
+            <Plus className="w-5 h-5 mr-3" />
+            Create New Script
+          </a>
         </Button>
       </div>
 
