@@ -838,7 +838,11 @@ export default function ScriptCreation() {
                             className="hidden"
                             onChange={handleFileUpload}
                           />
-                          <Button variant="outline" size="sm">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="hover:scale-105 transition-transform duration-200"
+                          >
                             <Upload className="w-4 h-4 mr-2" />
                             Upload
                           </Button>
