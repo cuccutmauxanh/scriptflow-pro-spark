@@ -104,6 +104,30 @@ export default function Dashboard() {
     });
   };
 
+  const handleOnboardingComplete = (preferences: any) => {
+    localStorage.setItem("autoscriptor-onboarded", "true");
+    localStorage.setItem(
+      "autoscriptor-preferences",
+      JSON.stringify(preferences),
+    );
+    setShowOnboarding(false);
+    setShowTour(true);
+    toast({
+      title: "Welcome to AutoScriptor Pro!",
+      description:
+        "Your AI assistant is now personalized and ready to help you create amazing content.",
+    });
+  };
+
+  const handleTourComplete = () => {
+    setShowTour(false);
+    toast({
+      title: "You're all set!",
+      description:
+        "Start creating your first script by clicking the 'Create New Script' button.",
+    });
+  };
+
   const stats = {
     totalScripts: mockScripts.length,
     mostUsedPlatform: "YouTube",
