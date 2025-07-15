@@ -16,6 +16,8 @@ import {
   History,
   Users2,
   Bot,
+  BookOpen,
+  Bell,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -87,7 +89,7 @@ interface Collaborator {
   currentSection?: string;
 }
 
-export default function ScriptCreation() {
+export default function ScriptCreationEnhanced() {
   const [projectTitle, setProjectTitle] = useState("");
   const [platform, setPlatform] = useState("");
   const [format, setFormat] = useState("");
@@ -225,7 +227,7 @@ export default function ScriptCreation() {
           isDone: false,
           startTime: "0:15",
           endTime: "0:30",
-          lastEditedBy: "Phuong Nam Tran",
+          lastEditedBy: "You",
           lastEditedAt: new Date(Date.now() - 1800000),
         },
         {
@@ -329,7 +331,7 @@ export default function ScriptCreation() {
           ? {
               ...section,
               isDone: !section.isDone,
-              lastEditedBy: "Phuong Nam Tran",
+              lastEditedBy: "You",
               lastEditedAt: new Date(),
             }
           : section,
@@ -409,10 +411,10 @@ export default function ScriptCreation() {
 
   return (
     <Layout>
-      <div className="h-[calc(100vh-4rem)]">
+      <div className="h-[calc(100vh-4rem)] animate-in fade-in duration-500">
         {/* Metadata Display Bar - Only show after project is created */}
         {isProjectCreated && (
-          <div className="bg-surface border-b border-border p-3">
+          <div className="bg-surface border-b border-border p-3 animate-in slide-in-from-top duration-300">
             <div className="flex items-center justify-between max-w-screen-xl mx-auto">
               <div className="flex items-center space-x-4">
                 <span className="font-semibold text-text-primary">
@@ -420,29 +422,41 @@ export default function ScriptCreation() {
                 </span>
                 <div className="flex items-center space-x-2">
                   {platform && (
-                    <Badge variant="secondary" className="text-xs">
+                    <Badge
+                      variant="secondary"
+                      className="text-xs animate-in zoom-in duration-300"
+                    >
                       {platform}
                     </Badge>
                   )}
                   {format && (
-                    <Badge variant="secondary" className="text-xs">
+                    <Badge
+                      variant="secondary"
+                      className="text-xs animate-in zoom-in duration-300 delay-100"
+                    >
                       {format}
                     </Badge>
                   )}
                   {tone && (
-                    <Badge variant="secondary" className="text-xs">
+                    <Badge
+                      variant="secondary"
+                      className="text-xs animate-in zoom-in duration-300 delay-200"
+                    >
                       {tone}
                     </Badge>
                   )}
                   {duration && (
-                    <Badge variant="secondary" className="text-xs">
+                    <Badge
+                      variant="secondary"
+                      className="text-xs animate-in zoom-in duration-300 delay-300"
+                    >
                       {duration}
                     </Badge>
                   )}
                 </div>
 
                 {/* Collaborators */}
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 animate-in slide-in-from-left duration-500 delay-200">
                   <Users2 className="w-4 h-4 text-text-secondary" />
                   <div className="flex -space-x-2">
                     {getOnlineCollaborators()
@@ -450,7 +464,7 @@ export default function ScriptCreation() {
                       .map((collab) => (
                         <div
                           key={collab.id}
-                          className="w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs border-2 border-background"
+                          className="w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs border-2 border-background hover:scale-110 transition-transform duration-200"
                         >
                           {collab.name
                             .split(" ")
@@ -472,6 +486,7 @@ export default function ScriptCreation() {
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowVersionHistory(true)}
+                  className="hover:scale-105 transition-transform duration-200"
                 >
                   <History className="w-4 h-4 mr-2" />
                   History
@@ -480,6 +495,7 @@ export default function ScriptCreation() {
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowCollabDialog(true)}
+                  className="hover:scale-105 transition-transform duration-200"
                 >
                   <Users2 className="w-4 h-4 mr-2" />
                   Share
@@ -488,6 +504,7 @@ export default function ScriptCreation() {
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowMetadataEdit(true)}
+                  className="hover:scale-105 transition-transform duration-200"
                 >
                   <Edit3 className="w-4 h-4 mr-2" />
                   Edit
@@ -512,9 +529,10 @@ export default function ScriptCreation() {
                       variant="outline"
                       size="sm"
                       onClick={() => setShowOldProjects(!showOldProjects)}
+                      className="hover:scale-105 transition-transform duration-200"
                     >
                       <FolderOpen className="w-4 h-4 mr-2" />
-                      Open Old Project
+                      Open Project
                     </Button>
                     <Button
                       variant="outline"
@@ -522,6 +540,7 @@ export default function ScriptCreation() {
                       onClick={() =>
                         setShowReferenceLibrary(!showReferenceLibrary)
                       }
+                      className="hover:scale-105 transition-transform duration-200"
                     >
                       <FileText className="w-4 h-4 mr-2" />
                       Reference Library
@@ -531,7 +550,7 @@ export default function ScriptCreation() {
 
                 {/* Old Projects Modal */}
                 {showOldProjects && (
-                  <Card className="mb-4 bg-surface border-border">
+                  <Card className="mb-4 bg-surface border-border animate-in slide-in-from-top duration-300">
                     <CardHeader className="pb-3">
                       <CardTitle className="text-sm font-medium flex items-center justify-between">
                         Previous Projects
@@ -539,16 +558,17 @@ export default function ScriptCreation() {
                           variant="ghost"
                           size="sm"
                           onClick={() => setShowOldProjects(false)}
+                          className="hover:scale-110 transition-transform duration-200"
                         >
                           <X className="w-4 h-4" />
                         </Button>
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-3">
-                      {oldProjects.map((project) => (
+                      {oldProjects.map((project, index) => (
                         <div
                           key={project.id}
-                          className="border rounded-lg p-3 bg-background"
+                          className={`border rounded-lg p-3 bg-background hover:bg-accent/50 transition-colors duration-200 animate-in fade-in duration-300 delay-${index * 100}`}
                         >
                           <div className="flex items-center justify-between">
                             <div>
@@ -565,6 +585,7 @@ export default function ScriptCreation() {
                             <Button
                               size="sm"
                               onClick={() => loadOldProject(project.id)}
+                              className="hover:scale-105 transition-transform duration-200"
                             >
                               <Edit3 className="w-4 h-4 mr-1" />
                               Edit
@@ -588,7 +609,7 @@ export default function ScriptCreation() {
 
                 {/* Reference Library Modal */}
                 {showReferenceLibrary && (
-                  <Card className="mb-4 bg-surface border-border">
+                  <Card className="mb-4 bg-surface border-border animate-in slide-in-from-top duration-300">
                     <CardHeader className="pb-3">
                       <CardTitle className="text-sm font-medium flex items-center justify-between">
                         Reference Files & Links
@@ -596,6 +617,7 @@ export default function ScriptCreation() {
                           variant="ghost"
                           size="sm"
                           onClick={() => setShowReferenceLibrary(false)}
+                          className="hover:scale-110 transition-transform duration-200"
                         >
                           <X className="w-4 h-4" />
                         </Button>
@@ -607,10 +629,10 @@ export default function ScriptCreation() {
                           No files uploaded yet
                         </p>
                       ) : (
-                        uploadedFiles.map((file) => (
+                        uploadedFiles.map((file, index) => (
                           <div
                             key={file.id}
-                            className="flex items-center justify-between bg-background rounded p-2"
+                            className={`flex items-center justify-between bg-background rounded p-2 hover:bg-accent/50 transition-colors duration-200 animate-in fade-in duration-300 delay-${index * 50}`}
                           >
                             <div className="flex items-center space-x-2">
                               {getFileIcon(file.type)}
@@ -627,6 +649,7 @@ export default function ScriptCreation() {
                               variant="ghost"
                               size="sm"
                               onClick={() => removeFile(file.id)}
+                              className="hover:scale-110 transition-transform duration-200"
                             >
                               <X className="w-3 h-3" />
                             </Button>
@@ -644,7 +667,7 @@ export default function ScriptCreation() {
                           <Button
                             variant="outline"
                             size="sm"
-                            className="w-full"
+                            className="w-full hover:scale-105 transition-transform duration-200"
                           >
                             <Upload className="w-4 h-4 mr-2" />
                             Add Files/Links
@@ -657,17 +680,17 @@ export default function ScriptCreation() {
 
                 {/* Project Info */}
                 {(!isProjectCreated || showMetadataEdit) && (
-                  <div className="space-y-4">
+                  <div className="space-y-4 animate-in slide-in-from-bottom duration-500">
                     <Input
                       placeholder="Project Title"
                       value={projectTitle}
                       onChange={(e) => setProjectTitle(e.target.value)}
-                      className="bg-surface border-border"
+                      className="bg-surface border-border transition-all duration-300 focus:scale-[1.02]"
                     />
 
                     <div className="grid grid-cols-2 gap-3">
                       <Select value={platform} onValueChange={setPlatform}>
-                        <SelectTrigger className="bg-surface border-border">
+                        <SelectTrigger className="bg-surface border-border transition-all duration-300 hover:border-primary/50">
                           <SelectValue placeholder="Platform" />
                         </SelectTrigger>
                         <SelectContent>
@@ -679,7 +702,7 @@ export default function ScriptCreation() {
                       </Select>
 
                       <Select value={format} onValueChange={setFormat}>
-                        <SelectTrigger className="bg-surface border-border">
+                        <SelectTrigger className="bg-surface border-border transition-all duration-300 hover:border-primary/50">
                           <SelectValue placeholder="Format" />
                         </SelectTrigger>
                         <SelectContent>
@@ -693,7 +716,7 @@ export default function ScriptCreation() {
 
                     <div className="grid grid-cols-2 gap-3">
                       <Select value={tone} onValueChange={setTone}>
-                        <SelectTrigger className="bg-surface border-border">
+                        <SelectTrigger className="bg-surface border-border transition-all duration-300 hover:border-primary/50">
                           <SelectValue placeholder="Tone" />
                         </SelectTrigger>
                         <SelectContent>
@@ -707,7 +730,7 @@ export default function ScriptCreation() {
                       </Select>
 
                       <Select value={duration} onValueChange={setDuration}>
-                        <SelectTrigger className="bg-surface border-border">
+                        <SelectTrigger className="bg-surface border-border transition-all duration-300 hover:border-primary/50">
                           <SelectValue placeholder="Duration" />
                         </SelectTrigger>
                         <SelectContent>
@@ -720,17 +743,19 @@ export default function ScriptCreation() {
                     </div>
 
                     {showMetadataEdit && (
-                      <div className="flex justify-end space-x-2 pt-2">
+                      <div className="flex justify-end space-x-2 pt-2 animate-in fade-in duration-300">
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => setShowMetadataEdit(false)}
+                          className="hover:scale-105 transition-transform duration-200"
                         >
                           Cancel
                         </Button>
                         <Button
                           size="sm"
                           onClick={() => setShowMetadataEdit(false)}
+                          className="hover:scale-105 transition-transform duration-200"
                         >
                           Save Changes
                         </Button>
@@ -773,11 +798,11 @@ export default function ScriptCreation() {
 
                   <TabsContent
                     value="chat"
-                    className="flex-1 flex flex-col mt-0"
+                    className="flex-1 flex flex-col mt-0 animate-in fade-in duration-500"
                   >
                     {/* Current Context Display */}
                     {focusedSection && (
-                      <div className="p-4 border-b border-border bg-accent/20">
+                      <div className="p-4 border-b border-border bg-accent/20 animate-in slide-in-from-top duration-300">
                         <div className="flex items-center space-x-2">
                           <div
                             className={`w-4 h-4 rounded-full ${scriptSections.find((s) => s.id === focusedSection)?.color}`}
@@ -792,12 +817,13 @@ export default function ScriptCreation() {
                             }
                           </span>
                           <span className="text-sm font-medium">
-                            Đang chỉnh sửa chi tiết
+                            Editing this section in detail
                           </span>
                           <Button
                             variant="ghost"
                             size="sm"
                             onClick={() => setFocusedSection(null)}
+                            className="hover:scale-110 transition-transform duration-200"
                           >
                             <X className="w-3 h-3" />
                           </Button>
@@ -807,13 +833,13 @@ export default function ScriptCreation() {
 
                     {/* Chat Messages */}
                     <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                      {chatMessages.map((message) => (
+                      {chatMessages.map((message, index) => (
                         <div
                           key={message.id}
-                          className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                          className={`flex ${message.role === "user" ? "justify-end" : "justify-start"} animate-in slide-in-from-bottom duration-300 delay-${index * 50}`}
                         >
                           <div
-                            className={`max-w-[80%] rounded-lg p-3 ${
+                            className={`max-w-[80%] rounded-lg p-3 transition-all duration-200 hover:scale-[1.01] ${
                               message.role === "user"
                                 ? "bg-primary text-primary-foreground"
                                 : "bg-surface border border-border"
@@ -851,7 +877,7 @@ export default function ScriptCreation() {
 
                       <div className="flex flex-col space-y-2">
                         {focusedSection && (
-                          <div className="flex items-center space-x-2 p-2 bg-accent/20 rounded">
+                          <div className="flex items-center space-x-2 p-2 bg-accent/20 rounded animate-in slide-in-from-top duration-300">
                             <span
                               className={`text-xs font-mono px-2 py-1 rounded ${scriptSections.find((s) => s.id === focusedSection)?.color} text-white`}
                             >
@@ -866,11 +892,11 @@ export default function ScriptCreation() {
                             </span>
                           </div>
                         )}
-                        <div className="flex space-x-2">
+                        <div className="flex space-x-2 relative">
                           <Textarea
                             placeholder={
                               focusedSection
-                                ? "Nhập yêu cầu ch��nh sửa cho phần này..."
+                                ? "Enter editing request for this section..."
                                 : "Describe your script idea or ask for changes..."
                             }
                             value={chatInput}
@@ -880,15 +906,46 @@ export default function ScriptCreation() {
                               !e.shiftKey &&
                               (e.preventDefault(), handleSendMessage())
                             }
-                            className="flex-1 min-h-[60px] bg-surface border-border resize-none"
+                            className="flex-1 min-h-[60px] bg-surface border-border resize-none transition-all duration-300 focus:scale-[1.01]"
                           />
-                          <Button
-                            onClick={handleSendMessage}
-                            className="self-end"
-                          >
-                            <Send className="w-4 h-4" />
-                          </Button>
+                          <div className="flex flex-col gap-2">
+                            <Button
+                              onClick={handleSendMessage}
+                              className="self-end hover:scale-105 transition-transform duration-200"
+                            >
+                              <Send className="w-4 h-4" />
+                            </Button>
+                            {/* Notification Bell */}
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="w-8 h-8 text-text-muted hover:text-primary hover:scale-110 transition-all duration-200"
+                              title="New notifications"
+                            >
+                              <Bell className="w-4 h-4" />
+                            </Button>
+                          </div>
                         </div>
+                      </div>
+
+                      {/* Beta Feedback Line */}
+                      <div className="mt-3 pt-3 border-t border-border/50">
+                        <p className="text-xs text-text-muted text-center">
+                          This feature is in beta.
+                          <Button
+                            variant="link"
+                            className="text-xs p-0 h-auto ml-1 text-primary hover:underline hover:scale-105 transition-all duration-200"
+                            onClick={() =>
+                              toast({
+                                title: "Feedback",
+                                description:
+                                  "Thank you for your interest! Feedback form will be available soon.",
+                              })
+                            }
+                          >
+                            Send feedback
+                          </Button>
+                        </p>
                       </div>
                     </div>
                   </TabsContent>
@@ -922,10 +979,20 @@ export default function ScriptCreation() {
                   Generated Script
                 </h2>
                 <div className="flex space-x-2">
-                  <Button variant="outline" size="sm" onClick={saveToMyScripts}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={saveToMyScripts}
+                    className="hover:scale-105 transition-transform duration-200"
+                  >
                     Save Script
                   </Button>
-                  <Button variant="outline" size="sm" onClick={exportScript}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={exportScript}
+                    className="hover:scale-105 transition-transform duration-200"
+                  >
                     <Download className="w-4 h-4 mr-2" />
                     Export
                   </Button>
@@ -934,7 +1001,7 @@ export default function ScriptCreation() {
 
               <div className="flex-1 overflow-y-auto p-6">
                 {scriptSections.length === 0 ? (
-                  <div className="text-center py-12">
+                  <div className="text-center py-12 animate-in fade-in duration-500">
                     <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
                       <Edit3 className="w-8 h-8 text-text-muted" />
                     </div>
@@ -956,7 +1023,7 @@ export default function ScriptCreation() {
                       return (
                         <Card
                           key={section.id}
-                          className={`bg-surface transition-all cursor-pointer border-2 ${
+                          className={`bg-surface transition-all cursor-pointer border-2 hover:scale-[1.01] duration-300 animate-in slide-in-from-right delay-${index * 100} ${
                             section.isDone ? "opacity-60" : ""
                           } ${focusedSection === section.id ? getBorderColorFromBg(section.color) : "border-border"} hover:${getBorderColorFromBg(section.color)}/60`}
                           onClick={() => focusOnSection(section.id)}
@@ -965,7 +1032,7 @@ export default function ScriptCreation() {
                             <div className="flex items-center justify-between">
                               <CardTitle className="text-lg text-text-primary flex items-center">
                                 <div
-                                  className={`w-6 h-6 rounded-full ${section.color} flex items-center justify-center mr-3 text-white text-xs font-bold`}
+                                  className={`w-6 h-6 rounded-full ${section.color} flex items-center justify-center mr-3 text-white text-xs font-bold transition-transform hover:scale-110 duration-200`}
                                 >
                                   {section.isDone ? (
                                     <Check className="w-3 h-3" />
@@ -989,7 +1056,7 @@ export default function ScriptCreation() {
                                     </Badge>
                                   )}
                                   {currentCollab && (
-                                    <Badge className="bg-green-500/20 text-green-400 text-xs">
+                                    <Badge className="bg-green-500/20 text-green-400 text-xs animate-pulse">
                                       {currentCollab.name} editing
                                     </Badge>
                                   )}
@@ -1000,11 +1067,7 @@ export default function ScriptCreation() {
                                   variant="ghost"
                                   size="sm"
                                   onClick={() => focusOnSection(section.id)}
-                                  className={
-                                    focusedSection === section.id
-                                      ? "bg-primary text-primary-foreground"
-                                      : ""
-                                  }
+                                  className={`hover:scale-110 transition-transform duration-200 ${focusedSection === section.id ? "bg-primary text-primary-foreground" : ""}`}
                                 >
                                   <Edit3 className="w-4 h-4" />
                                 </Button>
@@ -1012,6 +1075,7 @@ export default function ScriptCreation() {
                                   variant="ghost"
                                   size="sm"
                                   onClick={() => regenerateSection(section.id)}
+                                  className="hover:scale-110 transition-transform duration-200"
                                 >
                                   <RotateCcw className="w-4 h-4" />
                                 </Button>
@@ -1023,6 +1087,7 @@ export default function ScriptCreation() {
                                       section.content,
                                     )
                                   }
+                                  className="hover:scale-110 transition-transform duration-200"
                                 >
                                   <Copy className="w-4 h-4" />
                                 </Button>
@@ -1032,6 +1097,7 @@ export default function ScriptCreation() {
                                   }
                                   size="sm"
                                   onClick={() => toggleSectionDone(section.id)}
+                                  className="hover:scale-110 transition-transform duration-200"
                                 >
                                   <Check className="w-4 h-4" />
                                 </Button>
@@ -1047,7 +1113,7 @@ export default function ScriptCreation() {
                           </CardHeader>
                           <CardContent>
                             {editingSection === section.id ? (
-                              <div className="space-y-3">
+                              <div className="space-y-3 animate-in fade-in duration-300">
                                 <Textarea
                                   value={section.content}
                                   onChange={(e) =>
@@ -1066,12 +1132,14 @@ export default function ScriptCreation() {
                                     variant="ghost"
                                     size="sm"
                                     onClick={() => setEditingSection(null)}
+                                    className="hover:scale-105 transition-transform duration-200"
                                   >
                                     Cancel
                                   </Button>
                                   <Button
                                     size="sm"
                                     onClick={() => setEditingSection(null)}
+                                    className="hover:scale-105 transition-transform duration-200"
                                   >
                                     Save
                                   </Button>
@@ -1079,7 +1147,7 @@ export default function ScriptCreation() {
                               </div>
                             ) : (
                               <div
-                                className={`text-text-primary leading-relaxed cursor-pointer hover:bg-accent/50 rounded p-2 -m-2 transition-colors ${
+                                className={`text-text-primary leading-relaxed cursor-pointer hover:bg-accent/50 rounded p-2 -m-2 transition-all duration-200 ${
                                   section.isDone
                                     ? "line-through opacity-70"
                                     : ""
@@ -1102,7 +1170,7 @@ export default function ScriptCreation() {
 
         {/* Export Dialog */}
         <Dialog open={showExportDialog} onOpenChange={setShowExportDialog}>
-          <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto animate-in zoom-in duration-300">
             <DialogHeader>
               <DialogTitle>Export Script</DialogTitle>
             </DialogHeader>
@@ -1115,7 +1183,7 @@ export default function ScriptCreation() {
 
         {/* Version History Dialog */}
         <Dialog open={showVersionHistory} onOpenChange={setShowVersionHistory}>
-          <DialogContent className="max-w-6xl max-h-[80vh] overflow-y-auto">
+          <DialogContent className="max-w-6xl max-h-[80vh] overflow-y-auto animate-in zoom-in duration-300">
             <DialogHeader>
               <DialogTitle>Version History</DialogTitle>
             </DialogHeader>
@@ -1125,7 +1193,7 @@ export default function ScriptCreation() {
 
         {/* Collaboration Dialog */}
         <Dialog open={showCollabDialog} onOpenChange={setShowCollabDialog}>
-          <DialogContent>
+          <DialogContent className="animate-in zoom-in duration-300">
             <DialogHeader>
               <DialogTitle>Share & Collaborate</DialogTitle>
             </DialogHeader>
@@ -1137,7 +1205,11 @@ export default function ScriptCreation() {
                     value="https://autoscriptor.pro/scripts/abc123"
                     readOnly
                   />
-                  <Button variant="outline" size="sm">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="hover:scale-105 transition-transform duration-200"
+                  >
                     <Copy className="w-4 h-4" />
                   </Button>
                 </div>
@@ -1149,7 +1221,7 @@ export default function ScriptCreation() {
                   {collaborators.map((collab) => (
                     <div
                       key={collab.id}
-                      className="flex items-center justify-between p-2 border rounded"
+                      className="flex items-center justify-between p-2 border rounded hover:bg-accent/50 transition-colors duration-200"
                     >
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs">
@@ -1173,7 +1245,9 @@ export default function ScriptCreation() {
 
               <div className="flex gap-2">
                 <Input placeholder="Enter email to invite..." />
-                <Button>Invite</Button>
+                <Button className="hover:scale-105 transition-transform duration-200">
+                  Invite
+                </Button>
               </div>
             </div>
           </DialogContent>
